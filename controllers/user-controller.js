@@ -10,9 +10,9 @@ const userController = {
       })
       .select('-__v')
       .then(db_user_data => res.json(db_user_data))
-      .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
+      .catch(error => {
+        console.log(error);
+        res.status(500).json(error);
       });
   },
 
@@ -31,9 +31,9 @@ const userController = {
         }
         res.json(db_user_data);
       })
-      .catch(err => {
-        console.log(err);
-        res.status(400).json(err);
+      .catch(error => {
+        console.log(error);
+        res.status(400).json(error);
       });
   },
 
@@ -41,7 +41,7 @@ const userController = {
   add_user({ body }, res) {
     User.create(body)
       .then(db_user_data => res.json(db_user_data))
-      .catch(err => res.status(400).json(err));
+      .catch(error => res.status(400).json(error));
   },
 
   // this function updates an individual user by id
@@ -54,7 +54,7 @@ const userController = {
         }
         res.json(db_user_data);
       })
-      .catch(err => res.status(400).json(err));
+      .catch(error => res.status(400).json(error));
   },
 
   // this function removes user
@@ -67,7 +67,7 @@ const userController = {
         }
         res.json(db_user_data);
       })
-      .catch(err => res.status(400).json(err));
+      .catch(error => res.status(400).json(error));
   }
 };
 
