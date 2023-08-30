@@ -5,9 +5,9 @@ const thoughtController = {
   get_all_thoughts(req, res) {
     Thought.find({})
       .then(dbThoughtData => res.json(dbThoughtData))
-      .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
+      .catch(error => {
+        console.log(error);
+        res.status(500).json(error);
       });
   },
 
@@ -21,9 +21,9 @@ const thoughtController = {
         }
         res.json(dbThoughtData);
       })
-      .catch(err => {
-        console.log(err);
-        res.status(400).json(err);
+      .catch(error => {
+        console.log(error);
+        res.status(400).json(error);
       });
   },
 
@@ -44,7 +44,7 @@ const thoughtController = {
         }
         res.json(db_user_data);
       })
-      .catch(err => res.json(err));
+      .catch(error => res.json(error));
   },
 
   // Update a thought by id
@@ -57,7 +57,7 @@ const thoughtController = {
         }
         res.json(dbThoughtData);
       })
-      .catch(err => res.status(400).json(err));
+      .catch(error => res.status(400).json(error));
   },
 
   // Delete a thought
@@ -70,7 +70,7 @@ const thoughtController = {
         }
         res.json(dbThoughtData);
       })
-      .catch(err => res.status(400).json(err));
+      .catch(error => res.status(400).json(error));
   },
 
   // Add a reaction
@@ -87,7 +87,7 @@ const thoughtController = {
         }
         res.json(dbThoughtData);
       })
-      .catch(err => res.json(err));
+      .catch(error => res.json(error));
   },
 
   // Remove a reaction
@@ -104,7 +104,7 @@ const thoughtController = {
         }
         res.json(dbThoughtData);
       })
-      .catch(err => res.json(err));
+      .catch(error => res.json(error));
   }
 };
 
