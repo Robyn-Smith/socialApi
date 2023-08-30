@@ -37,12 +37,12 @@ const thoughtController = {
           { new: true }
         );
       })
-      .then(dbUserData => {
-        if (!dbUserData) {
+      .then(db_user_data => {
+        if (!db_user_data) {
           res.status(404).json({ message: 'Error no user with this id' });
           return;
         }
-        res.json(dbUserData);
+        res.json(db_user_data);
       })
       .catch(err => res.json(err));
   },

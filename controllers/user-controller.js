@@ -1,7 +1,7 @@
 const { User } = require('../models');
 
 const userController = {
-  // Get all users
+  // this function Gets all users
   get_all_users(req, res) {
     User.find({})
       .populate({
@@ -9,14 +9,14 @@ const userController = {
         select: '-__v'
       })
       .select('-__v')
-      .then(dbUserData => res.json(dbUserData))
+      .then(db_user_data => res.json(db_user_data))
       .catch(err => {
         console.log(err);
         res.status(500).json(err);
       });
   },
 
-  // Get a single user by id
+  // this function Get one individual user by id
   get_user_by_id({ params }, res) {
     User.findOne({ _id: params.id })
       .populate({
@@ -24,12 +24,12 @@ const userController = {
         select: '-__v'
       })
       .select('-__v')
-      .then(dbUserData => {
-        if (!dbUserData) {
+      .then(db_user_data => {
+        if (!db_user_data) {
           res.status(404).json({ message: 'Error no user with this id' });
           return;
         }
-        res.json(dbUserData);
+        res.json(db_user_data);
       })
       .catch(err => {
         console.log(err);
@@ -37,35 +37,35 @@ const userController = {
       });
   },
 
-  // Create a user
+  // this function makes a new user
   add_user({ body }, res) {
     User.create(body)
-      .then(dbUserData => res.json(dbUserData))
+      .then(db_user_data => res.json(db_user_data))
       .catch(err => res.status(400).json(err));
   },
 
-  // Update a user by id
+  // this function updates an individual user by id
   update_user({ params, body }, res) {
     User.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
-      .then(dbUserData => {
-        if (!dbUserData) {
+      .then(db_user_data => {
+        if (!db_user_data) {
           res.status(404).json({ message: 'Error no user with this id' });
           return;
         }
-        res.json(dbUserData);
+        res.json(db_user_data);
       })
       .catch(err => res.status(400).json(err));
   },
 
-  // Delete a user
+  // this function removes user
   remove_user({ params }, res) {
     User.findOneAndDelete({ _id: params.id })
-      .then(dbUserData => {
-        if (!dbUserData) {
+      .then(db_user_data => {
+        if (!db_user_data) {
           res.status(404).json({ message: 'Error no user with this id' });
           return;
         }
-        res.json(dbUserData);
+        res.json(db_user_data);
       })
       .catch(err => res.status(400).json(err));
   }
