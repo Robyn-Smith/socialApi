@@ -12,7 +12,7 @@ const thoughtController = {
   },
 
   // Get a single thought by id
-  getThoughtById({ params }, res) {
+  get_thought_by_id({ params }, res) {
     Thought.findOne({ _id: params.id })
       .then(dbThoughtData => {
         if (!dbThoughtData) {
@@ -28,7 +28,7 @@ const thoughtController = {
   },
 
   // Create a thought
-  createThought({ body }, res) {
+  add_thought({ body }, res) {
     Thought.create(body)
       .then(dbThoughtData => {
         return User.findOneAndUpdate(
@@ -48,7 +48,7 @@ const thoughtController = {
   },
 
   // Update a thought by id
-  updateThought({ params, body }, res) {
+  update_thought({ params, body }, res) {
     Thought.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
       .then(dbThoughtData => {
         if (!dbThoughtData) {
@@ -61,7 +61,7 @@ const thoughtController = {
   },
 
   // Delete a thought
-  deleteThought({ params }, res) {
+  remove_thought({ params }, res) {
     Thought.findOneAndDelete({ _id: params.id })
       .then(dbThoughtData => {
         if (!dbThoughtData) {
@@ -74,7 +74,7 @@ const thoughtController = {
   },
 
   // Add a reaction
-  addReaction({ params, body }, res) {
+  add_reaction({ params, body }, res) {
     Thought.findOneAndUpdate(
       { _id: params.thoughtId },
       { $push: { reactions: body } },
@@ -91,7 +91,7 @@ const thoughtController = {
   },
 
   // Remove a reaction
-  removeReaction({ params }, res) {
+  remove_reaction({ params }, res) {
     Thought.findOneAndUpdate(
       { _id: params.thoughtId },
       { $pull: { reactions: { reactionId: params.reactionId } } },
