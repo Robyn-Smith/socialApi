@@ -141,7 +141,7 @@ const userController = {
     //       .catch(error => res.json(error));
     //   }
     // },
-    addFriend({params}, res){
+    add_friend({params}, res){
       User.findOneAndUpdate(
           {_id: params.id},
           {$push: {friends: params.friendId}},
@@ -154,10 +154,10 @@ const userController = {
           }
           res.json(db_user_data);
       })
-      .catch(err => res.status(400).json(err));
+      .catch(error => res.status(400).json(error));
   },
-  
-  removeFriend({params}, res) {
+
+  remove_friend({params}, res) {
     User.findOneAndUpdate(
       { _id: params.id},
       { $pull: { friends: { friendId: params.friendId } } },
@@ -170,8 +170,9 @@ const userController = {
         }
         res.json(db_user_data);
       })
-      .catch(err => res.json(err));
+      .catch(error => res.json(error));
   
-  };
+  }
+};
 
 module.exports = userController;
