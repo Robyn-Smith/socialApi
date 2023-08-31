@@ -108,38 +108,70 @@ const userController = {
 //   },
 // };
     // Add a friend
-    add_friend({ params, body }, res) {
-        User.findOneAndUpdate(
-          { _id: params.userId },
-          { $push: { friends: body } },
-          { new: true, runValidators: true }
-        )
-          .then(db_user_data => {
-            if (!db_user_data) {
-              res.status(404).json({ message: 'Error no thoughts found with chosen id' });
-              return;
-            }
-            res.json(db_user_data);
-          })
-          .catch(error => res.json(error));
-      },
+    // add_friend({ params, body }, res) {
+    //     User.findOneAndUpdate(
+    //       { _id: params.userId },
+    //       { $push: { friends: body } },
+    //       { new: true, runValidators: true }
+    //     )
+    //       .then(db_user_data => {
+    //         if (!db_user_data) {
+    //           res.status(404).json({ message: 'Error no thoughts found with chosen id' });
+    //           return;
+    //         }
+    //         res.json(db_user_data);
+    //       })
+    //       .catch(error => res.json(error));
+    //   },
     
-      // Remove a reaction
-      remove_friend({ params }, res) {
-        User.findOneAndDelete(
-          { _id: params.userId },
-          { $pull: { friends: { friendsId: params.friendsId } } },
-          { new: true }
-        )
-          .then(db_user_data => {
-            if (!db_user_data) {
-              res.status(404).json({ message: 'Error no thoughts found with chosen id' });
+    //   // Remove a reaction
+    //   remove_friend({ params }, res) {
+    //     User.findOneAndDelete(
+    //       { _id: params.userId },
+    //       { $pull: { friends: { friendsId: params.friendsId } } },
+    //       { new: true }
+    //     )
+    //       .then(db_user_data => {
+    //         if (!db_user_data) {
+    //           res.status(404).json({ message: 'Error no thoughts found with chosen id' });
+    //           return;
+    //         }
+    //         res.json(db_user_data);
+    //       })
+    //       .catch(error => res.json(error));
+    //   }
+    // },
+    addFriend({params}, res){
+      User.findOneAndUpdate(
+          {_id: params.id},
+          {$push: {friends: params.friendId}},
+          {runValidators: true, new: true}
+      )
+      .then(db_user_data => {
+          if(!db_user_data) {
+              res.status(404).json({ message: 'No user with this ID!' });
               return;
-            }
-            res.json(db_user_data);
-          })
-          .catch(error => res.json(error));
-      }
-    };
+          }
+          res.json(db_user_data);
+      })
+      .catch(err => res.status(400).json(err));
+  },
+  
+  removeFriend({params}, res) {
+    User.findOneAndUpdate(
+      { _id: params.id},
+      { $pull: { friends: { friendId: params.friendId } } },
+      { new: true }
+    )
+      .then(db_user_data => {
+        if (!db_user_data) {
+          res.status(404).json({ message: 'No user found with this id!' });
+          return;
+        }
+        res.json(db_user_data);
+      })
+      .catch(err => res.json(err));
+  
+  };
 
 module.exports = userController;
