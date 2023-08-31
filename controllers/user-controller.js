@@ -68,7 +68,78 @@ const userController = {
         res.json(db_user_data);
       })
       .catch(error => res.status(400).json(error));
-  }
-};
+  },
+
+// // Add Friend  
+//   async add_friend(req, res) {
+//     try {
+//       const user = await User.findOneAndUpdate(
+//         { _id: req.params.userId },
+//         { $addToSet: { friends: req.params.friendId } },
+//         { runValidators: true, new: true }
+//       );
+
+//       if (!user) {
+//         return res.status(404).json({ message: 'No user with this id!' });
+//       }
+//       res.json(user);
+//     } catch (err) {
+//       res.status(500).json(err);
+//     }
+//   },
+
+//   //remove friend
+//   async remove_friend(req, res) {
+//     try {
+//       const user = await User.findOneAndUpdate(
+//         { _id: req.params.userId },
+//         { $pull: { friends: req.params.friendId } },
+//         { runValidators: true, new: true }
+//       );
+
+//       if (!user) {
+//         return res.status(404).json({ message: 'No user with this id!' });
+//       }
+
+//       res.json(user);
+//     } catch (err) {
+//       res.status(500).json(err);
+//     }
+//   },
+// };
+    // Add a friend
+    add_friend({ params, body }, res) {
+        User.findOneAndUpdate(
+          { _id: params.userId },
+          { $push: { friends: body } },
+          { new: true, runValidators: true }
+        )
+          .then(db_user_data => {
+            if (!db_user_data) {
+              res.status(404).json({ message: 'Error no thoughts found with chosen id' });
+              return;
+            }
+            res.json(db_user_data);
+          })
+          .catch(error => res.json(error));
+      },
+    
+      // Remove a reaction
+      remove_friend({ params }, res) {
+        User.findOneAndDelete(
+          { _id: params.userId },
+          { $pull: { friends: { friendsId: params.friendsId } } },
+          { new: true }
+        )
+          .then(db_user_data => {
+            if (!db_user_data) {
+              res.status(404).json({ message: 'Error no thoughts found with chosen id' });
+              return;
+            }
+            res.json(db_user_data);
+          })
+          .catch(error => res.json(error));
+      }
+    };
 
 module.exports = userController;
